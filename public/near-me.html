@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="themes/main.min.css" />
+  <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="javascripts/jqm-init.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="javascripts/handler.js"></script>
+</head>
+<body>
+  
+  
+
+  <div data-role="page" id="sign-in-page" data-title="Near Me">
+    <header data-role="header" class="header" data-position="fixed" data-theme="a">
+      <h1></h1>
+      <button onclick="logout()" data-icon="delete" style="top:10px;float: right">Logout</button>
+    </header>
+    <main data-role="content">
+
+      <script type="text/javascript">
+        if(!sessionStorage.user_id){
+          alert("You must login first");
+          window.location.href = '/';
+        }      
+         
+        var data =$.ajax({
+            url: "/near-me",
+            data:{ id:sessionStorage.user_id },
+            method:"POST",
+            async: true,
+            success: function(response){
+                for(var i=0;i<response.length;i++){
+                    $("#near-me-result").append(
+                        "<li>"+
+                           "<h3>Email: " + response[i].email + "</h3>"+
+                           "<p>Distance from you: " + response[i].distance + "Meter(s)</p>"
+                        +"</li><br>"
+                    );
+                }
+            },
+            error: function(){
+                alert("Error");
+            }
+        });  
+
+      </script>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="home.html" data-icon="home">Home</a></li>
+          <li><a href="near-me.html" data-icon="user">Near Me</a></li>
+        </ul>
+      </div>
+
+
+      <ul data-role="listview" data-inset="true" id="near-me-result" style="padding: 1em;background: white">
+        
+      </ul>
+    </main>
+  </div>
+  <footer class="footer" data-role="footer" data-position="fixed" data-theme="a">
+      <h2>IO 18.2 - Ardiant Utomo</h2>
+  </footer>
+  
+
+</body>
+
+</html>

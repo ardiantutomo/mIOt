@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="themes/main.min.css" />
+  <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="javascripts/jqm-init.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="javascripts/handler.js"></script>
+</head>
+
+<body>
+  <div data-role="page" id="sign-up-page" data-title="mIOt - Sign Up">
+    <div data-role="header" data-position="fixed" class="header" data-theme="a">
+      <h1></h1>
+    </div>
+    <main data-role="content">
+    
+      <div data-role="navbar">
+        <ul>
+          <li><a href="/index" data-icon="home">Sign In</a></li>
+          <li><a href="/sign-up" data-icon="user">Sign Up</a></li>
+        </ul>
+      </div>
+      <script type="text/javascript">
+        if(sessionStorage.user_id){
+          alert("a");
+          $.mobile.changePage("/home.html");
+        }
+      </script>
+      <form id="sign-up-form">
+        <br>
+        <label for="email">Email</label>
+        <input name="email" id="email" type="email" placeholder="Email[5..20]" required minlength="5" maxlength="20">
+        <br>
+        <label for="password">Password</label>
+        <input name="password" id="password" type="password" placeholder="Password..." required minlength="6" maxlength="12">
+        <br>
+        <input type="submit" value="Sign Up">
+      </form>
+    </main>
+
+  </div>
+  <footer data-role="footer" data-position="fixed" class="footer" data-theme="a">
+    <h2>IO 18.2 - Ardiant Utomo</h2>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="themes/main.min.css" />
+  <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="javascripts/jqm-init.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="javascripts/handler.js"></script>
+</head>
+<!-- kalo navigate -->
+<body onload="loadGeoLocation()"> 
+
+  <div data-role="page" id="sign-in-page" data-title="Home">
+  <header data-role="header" class="header" data-position="fixed" data-theme="a">
+    <h1></h1>
+    <button onclick="logout()" data-icon="delete" style="top:10px;float: right">Logout</button>
+  </header>
+    <main data-role="content">
+      
+      <div data-role="navbar">
+        <ul>
+          <li><a href="home.html" data-icon="home">Home</a></li>
+          <li><a href="near-me.html" data-icon="user">Near Me</a></li>
+        </ul>
+      </div>
+      <script src="javascripts/geolocation.js"></script>
+      <script>
+          if(!sessionStorage.user_id){
+            alert("You must login first");
+            window.location.href = '/';
+          }
+          
+          function loadGeoLocation(){
+            $('#gambar').html('<img height="45" width="45" src="images/loading.gif" />');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+              document.getElementById("lat-long").innerHTML = "Geolocation is not supported by this browser.";
+            }
+          }
+          loadGeoLocation();
+          function showPosition(position) {
+            document.getElementById("lat-long").innerHTML = "Your Latitude: " + position.coords.latitude +
+              "<br>Your Logitude: " + position.coords.longitude;
+              document.getElementById("lat").value = position.coords.latitude;
+              document.getElementById("long").value = position.coords.longitude;
+              document.getElementById("user_id").value = sessionStorage.user_id;
+            $("#gambar").fadeOut("slow");;
+
+          }
+      </script> 
+      <ul data-role="listview" data-inset="true" id="geo-data">
+        <li>
+          <form id="save-info-form">
+            
+            <h1 style="font-size: 2em">Your Information</h1>
+            <div id="gambar"></div>
+            <p id="lat-long"></p> 
+            <p>Note:You must share your location to see the people around you</p>
+            <input type="hidden" name="lat" id="lat">
+            <input type="hidden" name="long" id="long">
+            <input type="hidden" name="user_id" id="user_id">
+            <input type="submit" value="Share my location" >
+          </form> 
+        </li>
+      </ul>
+    </main>
+  </div>
+  <footer class="footer" data-role="footer" data-position="fixed" data-theme="a">
+      <h2>IO 18.2 - Ardiant Utomo</h2>
+  </footer>
+  
+
+</body>
+
+</html>
