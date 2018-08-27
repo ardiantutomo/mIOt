@@ -272,7 +272,7 @@ router.get('/sign-up',function(req, res, next){
   res.redirect('sign-up.html');
 });
 
-router.get('tes',function(req,res){
+router.get('/tes',function(req,res){
   return res.json({tes:"as"});
 });
 
