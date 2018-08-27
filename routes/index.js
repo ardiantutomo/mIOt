@@ -3,15 +3,14 @@ var router = express.Router();
 var DB = require('../helper/mysql_connect');
 var geolib = require('geolib');
 var ip = require('ip');
-var passport = require('passport');
-var fbStrategy = require('passport-facebook').Strategy;
+var PASSPORT = require('passport');
+var FB = require('passport-facebook').Strategy;
 var geoip = require('geoip-lite');
 var session = require('express-session');
 
 
-router.use(passport.initialize());
-passport.use(new var fbStrategy = require('passport-facebook').Strategy;
-({
+router.use(PASSPORT.initialize());
+PASSPORT.use(new FB({
   clientID: '270778270313692',
   clientSecret: 'd797e1e50260e4cbde69ec8add9d5d9e',
   callbackURL: '/auth/facebook/callback',
@@ -23,17 +22,17 @@ passport.use(new var fbStrategy = require('passport-facebook').Strategy;
   }
 ));
 
-passport.serializeUser(function (user, done) {
+PASSPORT.serializeUser(function (user, done) {
   done(null,user);
 });
 
-passport.deserializeUser(function (params) {
+PASSPORT.deserializeUser(function (params) {
   done(null,user);
 });
 
-router.get('/auth/facebook', passport.authenticate('facebook',{scope: ['email']}));
+router.get('/auth/facebook', PASSPORT.authenticate('facebook',{scope: ['email']}));
 
-router.get('/auth/facebook/callback', passport.authenticate('facebook'), function (req,res) {
+router.get('/auth/facebook/callback', PASSPORT.authenticate('facebook'), function (req,res) {
   return res.json({
     status: "OK",
     message: "Auth success!",
