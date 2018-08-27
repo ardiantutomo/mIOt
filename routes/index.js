@@ -3,32 +3,54 @@ var router = express.Router();
 var DB = require('../helper/mysql_connect');
 var geolib = require('geolib');
 var ip = require('ip');
-var PASSPORT = require('passport');
-var FB = require('passport-facebook').Strategy;
+var passport = require('passport');
+//var FB = require('passport-facebook').Strategy;
 var geoip = require('geoip-lite');
 var session = require('express-session');
 
 
-router.use(PASSPORT.initialize());
-PASSPORT.use(new FB({
-  clientID: '270778270313692',
-  clientSecret: 'd797e1e50260e4cbde69ec8add9d5d9e',
-  callbackURL: '/auth/facebook/callback',
-  enableProof: true,
-  profileFields: ['id','name','name_format','picture','short_name','email']
-},
-  function (accessToken, refreshToken, user, done) {
-    done(null, user);
+router.use(passport.initialize());
+passport.use(new FacebookStrategy({
+    clientID: 270778270313692,
+    clientSecret: d797e1e50260e4cbde69ec8add9d5d9e,
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
   }
 ));
 
-PASSPORT.serializeUser(function (user, done) {
-  done(null,user);
-});
+router.get('/auth/facebook',
+  passport.authenticate('facebook'));
 
-PASSPORT.deserializeUser(function (params) {
-  done(null,user);
-});
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+// PASSPORT.use(new FB({
+//   clientID: '270778270313692',
+//   clientSecret: 'd797e1e50260e4cbde69ec8add9d5d9e',
+//   callbackURL: '/auth/facebook/callback',
+//   enableProof: true,
+//   profileFields: ['id','name','name_format','picture','short_name','email']
+// },
+//   function (accessToken, refreshToken, user, done) {
+//     done(null, user);
+//   }
+// ));
+
+// PASSPORT.serializeUser(function (user, done) {
+//   done(null,user);
+// });
+
+// PASSPORT.deserializeUser(function (params) {
+//   done(null,user);
+// });
 
 router.get('/auth/facebook', PASSPORT.authenticate('facebook',{scope: ['email']}));
 
@@ -231,7 +253,7 @@ router.post('/near-me',function(req,res){
       var myLong = results[0].longitude;
       var q = 'SELECT * FROM location lc, user usr WHERE lc.user_id <> ? AND usr.id = lc.user_id ';
       var data = req.body.id;
-      DB.query(q,data,function(err,rows,fields){
+      DB.query(q,data,function(err,rows){
           if(err){
             return res.json({
               status: "ERROR",
