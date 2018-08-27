@@ -3,14 +3,13 @@ var router = express.Router();
 var DB = require('../helper/mysql_connect');
 var geolib = require('geolib');
 var ip = require('ip');
-var PASSPORT = require('passport');
-var FB = require('passport-facebook').Strategy;
+var passport = require('passport');
 var geoip = require('geoip-lite');
 var session = require('express-session');
 
 
-router.use(PASSPORT.initialize());
-PASSPORT.use(new FB({
+router.use(passport.initialize());
+passport.use(new FacebookStrategy({
   clientID: '270778270313692',
   clientSecret: 'd797e1e50260e4cbde69ec8add9d5d9e',
   callbackURL: '/auth/facebook/callback',
@@ -22,11 +21,11 @@ PASSPORT.use(new FB({
   }
 ));
 
-PASSPORT.serializeUser(function (user, done) {
+passport.serializeUser(function (user, done) {
   done(null,user);
 });
 
-PASSPORT.deserializeUser(function (params) {
+passport.deserializeUser(function (params) {
   done(null,user);
 });
 
