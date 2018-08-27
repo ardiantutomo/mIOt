@@ -35,13 +35,13 @@ passport.use(new FacebookStrategy({
 //   }
 // ));
 
-// PASSPORT.serializeUser(function (user, done) {
-//   done(null,user);
-// });
+passport.serializeUser(function (user, done) {
+  done(null,user);
+});
 
-// PASSPORT.deserializeUser(function (params) {
-//   done(null,user);
-// });
+passport.deserializeUser(function (params) {
+  done(null,user);
+});
 
 router.get('/auth/facebook', passport.authenticate('facebook',{scope: ['email']}));
 
