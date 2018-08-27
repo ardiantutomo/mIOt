@@ -22,15 +22,6 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-router.get('/auth/facebook',
-  passport.authenticate('facebook'));
-
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
 
 // PASSPORT.use(new FB({
 //   clientID: '270778270313692',
@@ -52,9 +43,9 @@ router.get('/auth/facebook/callback',
 //   done(null,user);
 // });
 
-router.get('/auth/facebook', PASSPORT.authenticate('facebook',{scope: ['email']}));
+router.get('/auth/facebook', passport.authenticate('facebook',{scope: ['email']}));
 
-router.get('/auth/facebook/callback', PASSPORT.authenticate('facebook'), function (req,res) {
+router.get('/auth/facebook/callback', passport.authenticate('facebook'), function (req,res) {
   return res.json({
     status: "OK",
     message: "Auth success!",
