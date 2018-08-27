@@ -13,7 +13,7 @@ router.use(passport.initialize());
 passport.use(new FacebookStrategy({
     clientID: 270778270313692,
     clientSecret: d797e1e50260e4cbde69ec8add9d5d9e,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: "https://miotdeploy.herokuapp.com/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ facebookId: profile.id }, function (err, user) {
