@@ -1,0 +1,6 @@
+{
+  "name": "mIOt",
+  "description": "An application for counting your distance to the others",
+  "repository": "https://github.com/ardiantutomo/mIOt",
+  "keywords": ["node", "express", "static"]
+}
